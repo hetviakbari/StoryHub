@@ -1,6 +1,8 @@
 import React from "react";
-import "./LandingPage.css";
-import logo from "./Photos/logo.png";
+import "../Style/LandingPage.css";
+import logo from "../Photos/logo.png";
+import { Link } from "react-router-dom";
+import "./Register.jsx";
 
 
 const LandingPage = () => {
@@ -13,8 +15,8 @@ const LandingPage = () => {
             <img src={logo} alt="StoryHub Logo" className="logo-img" />
           </div>
           <div className="nav-actions">
-            <button className="btn secondary">Sign In</button>
-            <button className="btn primary">Get Started</button>
+            <Link to="/login" className="btn outline">Sign In</Link>
+            <Link to="/register" className="btn primary">Get Started</Link>
           </div>
         </div>
       </nav>
@@ -29,8 +31,8 @@ const LandingPage = () => {
           </p>
 
           <div className="hero-buttons">
-            <button className="btn primary">Start Writing</button>
-            <button className="btn outline">Read Articles</button>
+            <Link to="/register" className="btn primary">Start Writing</Link>
+            <Link to="/login" className="btn outline">Read Articles</Link>
           </div>
         </div>
       </section>
@@ -102,7 +104,7 @@ const LandingPage = () => {
           Create an account, publish your thoughts, and join a growing community of
           writers.
         </p>
-        <button className="btn primary large">Create Free Account</button>
+        <Link to="/register" className="btn primary large">Create Free Account</Link>
       </section>
 
 
