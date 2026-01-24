@@ -3,7 +3,8 @@ import LandingPage from "./Pages/LandingPage.jsx";
 import "./App.css";
 import Register from "./Pages/Register.jsx";
 import Login from "./Pages/login.jsx"
-
+import TopicsFilter from "./Pages/TopicsFilter.jsx";
+import Dashboard from "./Pages/Dashboard.jsx";
 function App() {
   return (
     <Routes>
@@ -11,7 +12,9 @@ function App() {
       <Route path="*" element={<h1>404 Not Found</h1>} />
 
       <Route path="/register" element={<Register />} />
-      <Route path="/login" element = {<Login /> } />
+      <Route path="/login" element={<Login />} />
+      <Route path="/filter" element={<TopicsFilter />} />
+      <Route path="/dashboard" element={<Dashboard />} />
     </Routes>
   );
 }

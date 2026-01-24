@@ -2,6 +2,8 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../model/User.js");
+const UserPreference = require("../model/UserPreference");
+
 
 const router = express.Router();
 
@@ -47,8 +49,19 @@ router.post("/login", async (req, res) => {
     );
 
     const { password: _, ...data } = user._doc;
+const pref = await UserPreference.findById(user._id);
 
-    res.json({ token, user: data });
+const isPreferenceSelected = pref?.isPreferenceSelected || false;
+
+  res.json({
+  success: true,
+  token,
+  user: {
+    ...data,
+    isPreferenceSelected
+  }
+});
+
 
   } catch (err) {
     res.status(500).json(err);

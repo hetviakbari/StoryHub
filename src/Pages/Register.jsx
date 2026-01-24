@@ -3,6 +3,7 @@ import API from "../services/api";
 import "../Style/Auth.css";
 import logo from "../Photos/logo.png";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Register() {
@@ -11,18 +12,25 @@ export default function Register() {
     email: "",
     password: ""
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await API.post("/auth/register", form);
+
+    const res = await API.post("/auth/register", form);
+
+    localStorage.setItem("userEmail", res.data.email);
+
     alert("Registered Successfully");
+    navigate("/login");
   };
 
+
   return (
-    
+
     <div className="auth-wrapper">
       <div className="auth-card">
         <img src={logo} className="auth-logo" />
@@ -39,7 +47,7 @@ export default function Register() {
         </form>
 
         <p className="auth-footer">
-          Already have an account? <Link to ="/login"><span>Sign In</span></Link>
+          Already have an account? <Link to="/login"><span>Sign In</span></Link>
         </p>
       </div>
     </div>

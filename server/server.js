@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
-
+const preferenceRoutes = require ("./routes/preferenceRoutes.js");
 const authRoutes = require("./routes/Auth.js");
 
 const app = express();
@@ -11,6 +11,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/api/auth", authRoutes);
+app.use("/api/preferences", preferenceRoutes);
 
 app.get("/", (req, res) => {
   res.send("StoryHub API Running");
