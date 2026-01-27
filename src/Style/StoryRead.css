@@ -1,0 +1,49 @@
+.story-read {
+  max-width: 900px;
+  margin: auto;
+  padding: 40px;
+  font-family: "Inter", sans-serif;
+}
+
+.story-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.story-header h1 {
+  font-size: 36px;
+  margin: 0;
+}
+
+.save-icon {
+  font-size: 28px;
+  cursor: pointer;
+  color: #9ca3af;
+  transition: all 0.2s ease;
+}
+
+.save-icon.active {
+  color: #10b981;
+}
+
+.save-icon:hover {
+  transform: scale(1.1);
+}
+
+.meta {
+  color: #6b7280;
+  margin: 10px 0 20px;
+}
+
+.divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 20px 0;
+}
+
+.content {
+  font-size: 17px;
+  line-height: 1.9;
+  color: #111827;
+}

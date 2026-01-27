@@ -5,6 +5,8 @@ import Register from "./Pages/Register.jsx";
 import Login from "./Pages/login.jsx"
 import TopicsFilter from "./Pages/TopicsFilter.jsx";
 import Dashboard from "./Pages/Dashboard.jsx";
+import StoryRead from "./Pages/StoryRead.jsx";
+
 function App() {
   return (
     <Routes>
@@ -15,6 +17,8 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/filter" element={<TopicsFilter />} />
       <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/story/:id" element={<StoryRead />} /> 
+
     </Routes>
   );
 }

@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../model/User.js");
-const UserPreference = require("../model/UserPreference");
+const UserPreference = require("../model/UserPreference.js");
 
 
 const router = express.Router();
@@ -67,5 +67,11 @@ const isPreferenceSelected = pref?.isPreferenceSelected || false;
     res.status(500).json(err);
   }
 });
+
+router.get("/:email", async (req, res) => {
+  const user = await User.findOne({ email: req.params.email });
+  res.json(user);
+});
+
 
 module.exports = router;
