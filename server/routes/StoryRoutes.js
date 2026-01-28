@@ -1,5 +1,6 @@
 const express = require("express");
 const Story = require("../model/Story");
+const SavedStory = require("../model/SavedStory");
 const UserPreference = require("../model/UserPreference");
 
 const router = express.Router();
@@ -39,6 +40,27 @@ router.get("/feed/:userId", async (req, res) => {
     }
 
     const stories = await Story.find(filter).sort({ createdAt: -1 });
+
+    res.json(stories);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.get("/saved/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const saved = await SavedStory.findById(userId);
+
+    if (!saved || saved.stories.length === 0) {
+      return res.json([]);
+    }
+
+    // Fetch full story details
+    const stories = await Story.find({
+      _id: { $in: saved.stories },
+    }).sort({ createdAt: -1 });
 
     res.json(stories);
   } catch (err) {

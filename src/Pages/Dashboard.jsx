@@ -38,20 +38,6 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-container">
-      <aside className="sidebar">
-        <div className="logo-box">
-          <img src={logo} className="sidebar-logo" alt="StoryHub Logo" />
-        </div>
-
-        <ul>
-          <li className="active">Dashboard</li>
-          <li>Explore More</li>
-          <li>Trending</li>
-          <li>Saved</li>
-          <li>Settings</li>
-        </ul>
-      </aside>
-
       <main className="main-content">
         <div className="topbar">
           <h2>
@@ -75,7 +61,7 @@ export default function Dashboard() {
             {stories.length === 0 ? (
               <p>No stories found 😔</p>
             ) : (
-              stories.map((story) => (
+              stories.slice(0, 6).map((story) => (
                 <div
                   key={story._id}
                   className="story-card"
@@ -89,6 +75,13 @@ export default function Dashboard() {
               ))
             )}
           </div>
+          <button
+            className="explore-btn"
+            onClick={() => navigate("/explore")}
+          >
+            Explore More →
+          </button>
+
         </div>
       </main>
 

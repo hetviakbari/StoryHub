@@ -6,6 +6,9 @@ import Login from "./Pages/login.jsx"
 import TopicsFilter from "./Pages/TopicsFilter.jsx";
 import Dashboard from "./Pages/Dashboard.jsx";
 import StoryRead from "./Pages/StoryRead.jsx";
+import Explore from "./Pages/Explore.jsx";
+import Saved from "./Pages/saved.jsx";
+import Layout from "./Layout.jsx";
 
 function App() {
   return (
@@ -16,8 +19,12 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="/filter" element={<TopicsFilter />} />
+      <Route element={<Layout />}>
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/story/:id" element={<StoryRead />} /> 
+      <Route path="/explore" element={<Explore />} />
+      <Route path="/saved" element={<Saved />} />
+      </Route>
 
     </Routes>
   );
