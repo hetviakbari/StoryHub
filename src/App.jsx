@@ -9,6 +9,7 @@ import StoryRead from "./Pages/StoryRead.jsx";
 import Explore from "./Pages/Explore.jsx";
 import Saved from "./Pages/saved.jsx";
 import Layout from "./Layout.jsx";
+import Settings from "./Pages/setting.jsx";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       <Route path="/story/:id" element={<StoryRead />} /> 
       <Route path="/explore" element={<Explore />} />
       <Route path="/saved" element={<Saved />} />
+      <Route path="/settings" element={<Settings />} />
       </Route>
 
     </Routes>

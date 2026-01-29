@@ -1,0 +1,29 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  color: #111;
+  transition: 0.3s;
+}
+
+/* DARK MODE */
+body.dark {
+  background: #121212;
+  color: #eaeaea;
+}
+
+body.dark .card {
+  background: #1e1e1e;
+}
+
+body.dark button {
+  background: #333;
+  color: #fff;
+}
+
+body.dark input,
+body.dark select {
+  background: #2a2a2a;
+  color: #fff;
+  border: 1px solid #444;
+}

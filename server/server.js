@@ -9,7 +9,6 @@ const storyRoutes = require("./routes/StoryRoutes");
 const savedRoutes = require("./routes/saved");
 
 
-
 const app = express();
 
 app.use(cors());

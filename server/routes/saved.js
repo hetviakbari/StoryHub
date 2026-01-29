@@ -3,7 +3,6 @@ const SavedStory = require("../model/SavedStory");
 
 const router = express.Router();
 
-// CHECK IF SAVED
 router.get("/check/:userId/:storyId", async (req, res) => {
   try {
     const { userId, storyId } = req.params;
@@ -17,7 +16,6 @@ router.get("/check/:userId/:storyId", async (req, res) => {
   }
 });
 
-// TOGGLE SAVE / UNSAVE
 router.post("/toggle", async (req, res) => {
   try {
     const { userId, storyId } = req.body;

@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../model/User.js");
 const UserPreference = require("../model/UserPreference.js");
-
+const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
@@ -49,18 +49,18 @@ router.post("/login", async (req, res) => {
     );
 
     const { password: _, ...data } = user._doc;
-const pref = await UserPreference.findById(user._id);
+    const pref = await UserPreference.findById(user._id);
 
-const isPreferenceSelected = pref?.isPreferenceSelected || false;
+    const isPreferenceSelected = pref?.isPreferenceSelected || false;
 
-  res.json({
-  success: true,
-  token,
-  user: {
-    ...data,
-    isPreferenceSelected
-  }
-});
+    res.json({
+      success: true,
+      token,
+      user: {
+        ...data,
+        isPreferenceSelected
+      }
+    });
 
 
   } catch (err) {
@@ -71,6 +71,22 @@ const isPreferenceSelected = pref?.isPreferenceSelected || false;
 router.get("/:email", async (req, res) => {
   const user = await User.findOne({ email: req.params.email });
   res.json(user);
+});
+
+router.post("/change-password", authMiddleware, async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+
+  const user = await User.findById(req.user.id);
+  if (!user) return res.status(404).json({ msg: "User not found" });
+
+  const isMatch = await bcrypt.compare(oldPassword, user.password);
+  if (!isMatch)
+    return res.status(400).json({ msg: "Old password incorrect" });
+
+  user.password = await bcrypt.hash(newPassword, 10);
+  await user.save();
+
+  res.json({ msg: "Password updated" });
 });
 
 

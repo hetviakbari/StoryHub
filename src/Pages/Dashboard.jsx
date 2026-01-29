@@ -1,6 +1,5 @@
 import "../Style/Dashboard.css";
 import { useEffect, useState } from "react";
-import logo from "../Photos/logo.png";
 import WriteStoryModal from "./WriteStoryModal.jsx";
 import { useNavigate } from "react-router-dom";
 
@@ -14,20 +13,15 @@ export default function Dashboard() {
   useEffect(() => {
     const email = localStorage.getItem("userEmail");
     const userId = localStorage.getItem("userId");
-    console.log("Dashboard mounted for user:", email, "with ID:", userId);
+
     const fetchUser = async () => {
-      const res = await fetch(
-        `http://localhost:5000/api/auth/${email}`
-      );
+      const res = await fetch(`http://localhost:5000/api/auth/${email}`);
       const data = await res.json();
-      console.log("Fetched user data:", data);
       setName(data.name);
     };
 
     const fetchStories = async () => {
-      const res = await fetch(
-        `http://localhost:5000/api/stories/feed/${userId}`
-      );
+      const res = await fetch(`http://localhost:5000/api/stories/feed/${userId}`);
       const data = await res.json();
       setStories(data);
     };
@@ -40,18 +34,27 @@ export default function Dashboard() {
     <div className="dashboard-container">
       <main className="main-content">
         <div className="topbar">
-          <h2>
-            Welcome back, <span>{name}</span>
-          </h2>
+          <h2>Welcome back</h2>
           <button className="write-btn" onClick={() => setShowModal(true)}>
             + Write Story
           </button>
         </div>
 
         <div className="stats-grid">
-          <div className="stat-card">📖 Stories Read <p>12</p></div>
-          <div className="stat-card">❤️ Liked Stories <p>8</p></div>
-          <div className="stat-card">💾 Saved <p>4</p></div>
+          <div className="stat-card">
+            <h3>{name}</h3>
+            <span>Username</span>
+          </div>
+
+          <div className="stat-card">
+            <h3>{stories.length}</h3>
+            <span>Total Stories</span>
+          </div>
+
+          <div className="stat-card">
+            <h3>{new Date().toLocaleDateString()}</h3>
+            <span>Last Login</span>
+          </div>
         </div>
 
         <div className="story-section">
@@ -59,7 +62,7 @@ export default function Dashboard() {
 
           <div className="story-grid">
             {stories.length === 0 ? (
-              <p>No stories found 😔</p>
+              <p>No stories found</p>
             ) : (
               stories.slice(0, 6).map((story) => (
                 <div
@@ -68,20 +71,15 @@ export default function Dashboard() {
                   onClick={() => navigate(`/story/${story._id}`)}
                 >
                   <h4>{story.title}</h4>
-                  <p>
-                    {story.subCategory} • {story.author}
-                  </p>
+                  <p>{story.subCategory} • {story.author}</p>
                 </div>
               ))
             )}
           </div>
-          <button
-            className="explore-btn"
-            onClick={() => navigate("/explore")}
-          >
+
+          <button className="explore-btn" onClick={() => navigate("/explore")}>
             Explore More →
           </button>
-
         </div>
       </main>
 
