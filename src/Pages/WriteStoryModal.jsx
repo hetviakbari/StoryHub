@@ -25,7 +25,6 @@ export default function WriteStoryModal({ closeModal }) {
   const handleChange = (e) =>
     setStory({ ...story, [e.target.name]: e.target.value });
 
-  // ✅ AI ENHANCE FUNCTION
   const enhanceStory = async () => {
     if (!story.content) {
       alert("Write something first!");
@@ -37,6 +36,7 @@ export default function WriteStoryModal({ closeModal }) {
 
       const res = await API.post("/ai/enhance", {
         content: story.content,
+        title: story.title
       });
 
       setStory({ ...story, content: res.data.enhanced });
@@ -49,7 +49,6 @@ export default function WriteStoryModal({ closeModal }) {
     }
   };
 
-  // ✅ PUBLISH FUNCTION (UNCHANGED)
   const publishStory = async () => {
     const email = localStorage.getItem("userEmail");
     const author = email ? email.split("@")[0] : "anonymous";
