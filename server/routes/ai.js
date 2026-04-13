@@ -58,4 +58,45 @@ Return only the improved version.
     }
 });
 
+
+router.post("/summary", async (req, res) => {
+  try {
+    const { content, title } = req.body;
+
+    if (!content) {
+      return res.status(400).json({ error: "Content required" });
+    }
+
+    const prompt = `
+Summarize the following story in 4-5 short lines.
+
+Title: ${title}
+Content: ${content}
+
+Make it:
+- Short
+- Clear
+- Easy to read
+- Engaging
+
+Return only the summary.
+`;
+
+    const completion = await client.chat.completions.create({
+      model: "openai/gpt-3.5-turbo",
+      messages: [
+        { role: "user", content: prompt }
+      ],
+    });
+
+    const summary = completion.choices[0].message.content;
+
+    res.json({ summary });
+
+  } catch (err) {
+    console.error("SUMMARY ERROR:", err.message);
+    res.status(500).json({ error: "Summary failed" });
+  }
+});
+
 module.exports = router;

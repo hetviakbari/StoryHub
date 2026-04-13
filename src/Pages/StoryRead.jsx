@@ -10,6 +10,8 @@ export default function StoryRead() {
   const [story, setStory] = useState(null);
   const [saved, setSaved] = useState(false);
   const [recommended, setRecommended] = useState([]);
+  const [summary, setSummary] = useState("");
+  const [loadingSummary, setLoadingSummary] = useState(false);
 
   const email = localStorage.getItem("userEmail");
   const userId = email?.split("@")[0];
@@ -30,7 +32,24 @@ export default function StoryRead() {
     }
   }, [id, userId]);
 
-  
+  const handleSummary = async () => {
+    setLoadingSummary(true);
+
+    const res = await fetch("http://localhost:5000/api/ai/summary", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        content: story.content,
+        title: story.title,
+      }),
+    });
+
+    const data = await res.json();
+    setSummary(data.summary);
+    setLoadingSummary(false);
+  };
+
+
   const fetchOtherStories = async (currentCategory) => {
     const res = await fetch("http://localhost:5000/api/stories/feed/" + userId);
     const data = await res.json();
@@ -76,6 +95,23 @@ export default function StoryRead() {
       </p>
 
       <div className="divider" />
+
+      <div className="summary-section">
+        <button className="summary-btn" onClick={handleSummary}>
+          {loadingSummary ? "Generating..." : "📄 Show Summary"}
+        </button>
+
+        {summary && (
+          <>
+            <div className="summary-box">
+              <h3>📌 Quick Summary</h3>
+              <p>{summary}</p>
+            </div>
+
+            <div className="divider" />
+          </>
+        )}
+      </div>
 
       <p className="content">{story.content}</p>
 

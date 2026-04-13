@@ -32,16 +32,37 @@ router.get("/feed/:userId", async (req, res) => {
 
     const pref = await UserPreference.findById(userId);
 
-    let filter = {};
+    let stories = await Story.find();
 
-    if (pref && pref.topics && pref.topics.length > 0) {
-      const regexTopics = pref.topics.map(t => new RegExp(`^${t}$`, "i"));
-      filter = { subCategory: { $in: regexTopics } };
-    }
+    stories = stories.map((story) => {
+      let score = 0;
 
-    const stories = await Story.find(filter).sort({ createdAt: -1 });
+      if (pref && pref.topics.includes(story.subCategory)) {
+        score += 10;
+      }
+
+      if (pref && pref.topics.includes(story.category)) {
+        score += 5;
+      }
+
+      const daysOld =
+        (Date.now() - new Date(story.createdAt)) / (1000 * 60 * 60 * 24);
+
+      if (daysOld < 2) score += 5;
+      else if (daysOld < 7) score += 2;
+
+      score += Math.random() * 3;
+
+      return {
+        ...story._doc,
+        score,
+      };
+    });
+
+    stories.sort((a, b) => b.score - a.score);
 
     res.json(stories);
+
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
