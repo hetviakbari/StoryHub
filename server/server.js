@@ -7,7 +7,7 @@ const preferenceRoutes = require ("./routes/preferenceRoutes.js");
 const authRoutes = require("./routes/AuthRoutes.js");
 const storyRoutes = require("./routes/StoryRoutes");
 const savedRoutes = require("./routes/saved");
-
+const aiRoutes = require("./routes/ai");
 
 const app = express();
 
@@ -17,6 +17,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/preferences", preferenceRoutes);
 app.use("/api/stories", storyRoutes);
 app.use("/api/saved", savedRoutes);
+app.use("/api/ai", aiRoutes);
 
 
 app.get("/", (req, res) => {

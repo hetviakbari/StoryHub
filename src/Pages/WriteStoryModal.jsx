@@ -20,26 +20,51 @@ export default function WriteStoryModal({ closeModal }) {
     content: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) =>
     setStory({ ...story, [e.target.name]: e.target.value });
 
+  // ✅ AI ENHANCE FUNCTION
+  const enhanceStory = async () => {
+    if (!story.content) {
+      alert("Write something first!");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const res = await API.post("/ai/enhance", {
+        content: story.content,
+      });
+
+      setStory({ ...story, content: res.data.enhanced });
+
+    } catch (err) {
+      console.error(err);
+      alert("AI failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ✅ PUBLISH FUNCTION (UNCHANGED)
   const publishStory = async () => {
-  const email = localStorage.getItem("userEmail");
-  console.log("Publishing story for author:", email);
-  const author = email ? email.split("@")[0] : "anonymous";
+    const email = localStorage.getItem("userEmail");
+    const author = email ? email.split("@")[0] : "anonymous";
 
-  const res = await API.post("/stories/create", {
-    ...story,
-    author: author,
-    status: "published",
-  });
+    const res = await API.post("/stories/create", {
+      ...story,
+      author: author,
+      status: "published",
+    });
 
-  if (res.data.success) {
-    alert("Story Published!");
-    closeModal();
-  }
-};
-
+    if (res.data.success) {
+      alert("Story Published!");
+      closeModal();
+    }
+  };
 
   return (
     <div className="modal-overlay">
@@ -59,7 +84,7 @@ export default function WriteStoryModal({ closeModal }) {
           onChange={handleChange}
         />
 
-        {/* Main Category */}
+        {/* Category */}
         <select
           name="category"
           className="story-category"
@@ -94,15 +119,20 @@ export default function WriteStoryModal({ closeModal }) {
           className="story-editor"
           placeholder="Tell your story..."
           rows="10"
+          value={story.content}
           onChange={handleChange}
         ></textarea>
 
-        {/* Footer Buttons */}
         <div className="editor-footer">
-          <button className="draft-btn">Save Draft</button>
+
+          <button onClick={enhanceStory} className="draft-btn" disabled={loading}>
+            {loading ? "Enhancing..." : "✨ Enhance with AI"}
+          </button>
+
           <button className="publish-btn" onClick={publishStory}>
             Publish
           </button>
+
         </div>
 
       </div>

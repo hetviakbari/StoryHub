@@ -52,16 +52,13 @@ export default function TopicsFilter() {
 
             </header>
 
-            {/* Main Content */}
             <div className="topics-container">
 
-                {/* Title */}
                 <div className="title-section">
                     <h2>What are you interested in?</h2>
                     <p>Select topics to personalize your StoryHub feed.</p>
                 </div>
 
-                {/* Topic Sections */}
                 {Object.keys(topicsData).map((category) => (
                     <div key={category} className="topic-section">
                         <h3>{category}</h3>
@@ -81,7 +78,6 @@ export default function TopicsFilter() {
                     </div>
                 ))}
 
-                {/* Footer */}
                 <div className="topics-footer">
                     <p>{selectedTopics.length} topics selected</p>
                     <button
@@ -91,7 +87,6 @@ export default function TopicsFilter() {
                     >
                         Continue
                     </button>
-
                 </div>
             </div>
         </div>

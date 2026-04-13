@@ -15,7 +15,6 @@ export default function StoryRead() {
   const userId = email?.split("@")[0];
 
   useEffect(() => {
-    // fetch current story
     fetch(`http://localhost:5000/api/stories/${id}`)
       .then(res => res.json())
       .then(data => {
@@ -23,7 +22,6 @@ export default function StoryRead() {
         fetchOtherStories(data.category);
       });
 
-    // check saved
     if (userId) {
       fetch(`http://localhost:5000/api/saved/check/${userId}/${id}`)
         .then(res => res.json())
@@ -32,7 +30,7 @@ export default function StoryRead() {
     }
   }, [id, userId]);
 
-  // fetch stories NOT from same category
+  
   const fetchOtherStories = async (currentCategory) => {
     const res = await fetch("http://localhost:5000/api/stories/feed/" + userId);
     const data = await res.json();
@@ -41,7 +39,7 @@ export default function StoryRead() {
       s => s._id !== id && s.category !== currentCategory
     );
 
-    setRecommended(filtered.slice(0, 3)); // show 3 only
+    setRecommended(filtered.slice(0, 3));
   };
 
   const toggleSave = async () => {
@@ -81,7 +79,6 @@ export default function StoryRead() {
 
       <p className="content">{story.content}</p>
 
-      {/* RECOMMENDATIONS */}
       {recommended.length > 0 && (
         <>
           <h3 className="recommend-title">Explore Something Different</h3>
